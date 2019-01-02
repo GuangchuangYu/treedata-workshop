@@ -1,0 +1,91 @@
+---
+title: "Importing trees with data using treeio"
+---
+
+
+```{r init, include=F}
+library(knitr)
+opts_chunk$set(message=FALSE, warning=FALSE, eval=TRUE, echo=TRUE, cache=TRUE)
+.ex <- 1
+# library(ggplot2)
+# theme_set(theme_bw(base_size=16) + theme(strip.background = element_blank()))
+# knitr::knit_exit()
+
+library(treeio)
+```
+
+This section will demonstrate how to use **treeio** to parse tree with associated data to a single object in R. 
+
+
+_This lesson assumes a [basic familiarity with R](r-basics.html) and [data frames](r-dataframes.html)._
+
+This lesson does _not_ cover methods and software for _generating_ phylogenetic trees, nor does it it cover _interpreting_ phylogenies. **[Here's a quick primer on how to read a phylogeny](https://link.springer.com/article/10.1007/s12052-010-0273-6)** that you should definitely review prior to this lesson, but it is by no means extensive. Genome-wide sequencing allows for examination of the entire genome, and from this, many methods and software tools exist for comparative genomics using SNP- and gene-based phylogenetic analysis, either from unassembled sequencing reads, draft assemblies/contigs, or complete genome sequences. These methods are beyond the scope of this lesson.
+
+## The `treeio` Package
+
+**treeio** is an R package that designed for phylogenetic tree data input and output. It is released as part of Bioconductor and ROpenSci projects. 
+
+1. **tree Bioconductor page**: <https://www.bioconductor.org/packages/treeio>.
+2. **treeio homepage**: <https://guangchuangyu.github.io/treeio>.
+
+
+
+Just like R packages from CRAN, you only need to install Bioconductor packages once ([instructions here](setup.html#bioconductor)), then load them every time you start a new R session. 
+
+
+```{r load_ggtree, eval=FALSE}
+library(treeio)
+```
+
+----
+
+## Getting tree data from evolutionary analysis result
+
+Most tree viewer software (including R packages) focus on **Newick** and **NEXUS** file formats, and other evolutionary analysis software might also contains supporting evidence and/or analysis findings within the file that can be further analyzed in R or interpreted in phylogenetic context to help identifying evolutionary patterns.
+
+**treeio** supports several file formats, including:
+
+
++ [Newick](https://en.wikipedia.org/wiki/Newick_format)
++ [Nexus](https://en.wikipedia.org/wiki/Nexus_file)
++ [New Hampshire eXtended format (NHX)](https://home.cc.umanitoba.ca/~psgendb/doc/atv/NHX.pdf)
++ [jplace](http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0031009)
++ [Phylip](https://en.wikipedia.org/wiki/PHYLIP)
+
+and software output from:
+
+
++ [BEAST](http://beast2.org/)
++ [EPA](http://sco.h-its.org/exelixis/web/software/epa/index.html)
++ [HyPhy](https://veg.github.io/hyphy-site/)
++ [MrBayes](http://nbisweden.github.io/MrBayes/)
++ [PAML](http://abacus.gene.ucl.ac.uk/software/paml.html)
++ [PHYLDOG](https://pbil.univ-lyon1.fr/software/phyldog/)
++ [pplacer](http://matsen.fhcrc.org/pplacer/)
++ [r8s](http://ginger.ucdavis.edu/r8s)
++ [RAxML](http://evomics.org/learning/phylogenetics/raxml/)
++ [RevBayes](https://revbayes.github.io/intro.html)
+
+The `treeio` package implement several parser functions.
+
+```{r treeio-function, echo=F, message=FALSE}
+ff <- matrix(c(
+  "read.beast"      , "parsing output of BEAST",
+  "read.codeml"     , "parsing output of CodeML (rst and mlc files)",
+  "read.codeml_mlc" , "parsing mlc file (output of CodeML)",
+  "read.hyphy"      , "parsing output of HYPHY",
+  "read.jplace"     , "parsing jplace file including output of EPA and pplacer",
+  "read.mrbayes"    , "parsing output of MrBayes",
+  "read.newick"     , "parsing newick string, with ability to parse node label as support values",
+  "read.nhx"        , "parsing NHX file including output of PHYLDOG and RevBayes",
+  "read.paml_rst"   , "parsing rst file (output of BaseML or CodeML)",
+  "read.phylip"     , "parsing phylip file (phylip alignment + newick string)",
+  "read.r8s"        , "parsing output of r8s",
+  "read.raxml"      , "parsing output of RAxML"
+  ), ncol=2, byrow=TRUE)
+ff <- as.data.frame(ff)
+colnames(ff) <- c("Parser function", "Description")
+knitr::kable(ff, caption = "Parser functions defined in treeio", booktabs = T)
+```
+
+After parsing, storage of the tree structure with associated data is made through a S4 class, treedata, defined in the [treeio](https://bioconductor.org/packages/treeio/) package. These parsed data are mapped to the tree branches and nodes inside `treedata` object, so that they can be efficiently used to visually annotate the tree using [ggtree](https://bioconductor.org/packages/ggtree/) package.

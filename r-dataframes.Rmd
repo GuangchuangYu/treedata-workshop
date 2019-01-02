@@ -29,7 +29,7 @@ You can download the cleaned up version of the data at [the link above](data.htm
 
 ### dplyr and readr
 
-There are some built-in functions for reading in data in text files. These functions are _read-dot-something_ -- for example, `read.csv()` reads in comma-delimited text data; `read.delim()` reads in tab-delimited text, etc. We're going to read in data a little bit differently here using the [readr](https://github.com/hadley/readr) package. When you load the readr package, you'll have access to very similar looking functions, named _read-underscore-something_ -- e.g., `read_csv()`. You have to have the readr package installed to access these functions. Compared to the base functions, they're _much_ faster, they're good at guessing the types of data in the columns, they don't do some of the other silly things that the base functions do. We're going to use another package later on called [dplyr](https://cran.r-project.org/web/packages/dplyr/index.html), and if you have the dplyr package loaded as well, and you read in the data with readr, the data will display nicely. 
+There are some built-in functions for reading in data in text files. These functions are _read-dot-something_ -- for example, `read.csv()` reads in comma-delimited text data; `read.delim()` reads in tab-delimited text, etc. We're going to read in data a little bit differently here using the [readr](https://github.com/tidyverse/readr) package. When you load the readr package, you'll have access to very similar looking functions, named _read-underscore-something_ -- e.g., `read_csv()`. You have to have the readr package installed to access these functions. Compared to the base functions, they're _much_ faster, they're good at guessing the types of data in the columns, they don't do some of the other silly things that the base functions do. We're going to use another package later on called [dplyr](https://cran.r-project.org/web/packages/dplyr/index.html), and if you have the dplyr package loaded as well, and you read in the data with readr, the data will display nicely. 
 
 First let's load those packages.
 
@@ -113,67 +113,3 @@ We might be interested in the average expression of genes with a particular biol
 1. What's the range of rate represented in the data? (hint: `range()`).
 
 ----
-
-## BONUS: Preview to advanced manipulation
-
-What if we wanted show the mean expression, standard deviation, and correlation between growth rate and expression, separately for each limiting nutrient, separately for each gene, for all genes involved in the leucine biosynthesis pathway?
-
-```{r, results='hide'}
-ydat %>% 
-  filter(bp=="leucine biosynthesis") %>% 
-  group_by(nutrient, symbol) %>% 
-  summarize(mean=mean(expression), sd=sd(expression), r=cor(rate, expression))
-```
-
-```{r, echo=FALSE, results="markup"}
-ydat %>% 
-  filter(bp=="leucine biosynthesis") %>% 
-  group_by(nutrient, symbol) %>% 
-  summarize(mean=mean(expression), sd=sd(expression), r=cor(rate, expression)) %>% 
-  mutate_each(funs(round(., 2)), mean:r) %>% kable
-```
-
-Neat eh? Let's learn how to do that in the [advanced manipulation with dplyr lesson](r-dplyr-yeast.html).
-
-```{r makedata, include=F, eval=F}
-# Here's how I made the data
-library(readr)
-library(dplyr)
-library(tidyr)
-library(ggplot2)
-theme_set(theme_bw())
-
-# read original data
-(ydat <- read_delim("data/brauer2007_orig.txt", delim="\t"))
-# change variable WS||WS to ::
-(ydat <- ydat %>% mutate(NAME=gsub("\\s*\\|\\|\\s*", "::", NAME, perl=TRUE)))
-# separate on :: into gene symbol, go-bp, go-mf, syssymbol, and somenumber
-(ydat <- ydat %>% separate(NAME, c("symbol", "bp", "mf", "systematic_symbol", "somenumber"), sep = "::"))
-# replace missing with NA
-(ydat[ydat==""] <- NA)
-# remove things where syssymbol is missing
-(ydat <- ydat %>% filter(!is.na(systematic_symbol) & systematic_symbol!=""))
-# write out go terms to join to later
-ydat %>% select(systematic_symbol, bp, mf) %>% distinct %>% write_csv("data/brauer2007_syssymbol2go.csv")
-# unite the symbol column again
-(ydat <- ydat %>% unite(NAME, symbol, systematic_symbol, somenumber, sep="::") %>% select(-bp, -mf))
-# write out the messy data that you'll use for data cleaning class
-ydat %>% write_csv("data/brauer2007_messy.csv")
-rm(ydat)
-
-(ydat <- read_csv("data/brauer2007_messy.csv"))
-(syssymbol2go <- read_csv("data/brauer2007_syssymbol2go.csv"))
-
-ydat <- ydat %>% 
-  separate(NAME, c("symbol", "systematic_symbol", "somenumber"), sep = "::") %>%
-  select(-somenumber, -GID, -YORF, -GWEIGHT) %>%
-  gather(sample, expression, G0.05:U0.3) %>%
-  separate(sample, c("nutrient", "rate"), sep = 1) %>%
-  filter(!is.na(expression), systematic_symbol != "") %>% 
-  inner_join(syssymbol2go, by="systematic_symbol") %>% 
-  mutate(nutrient = plyr::mapvalues(nutrient, 
-                                    from=c("G", "L", "P", "S", "N", "U"), 
-                                    to=c("Glucose", "Leucine", "Phosphate", "Sulfate", "Ammonium", "Uracil")))
-
-ydat %>% write_csv("data/brauer2007_tidy.csv")
-```
