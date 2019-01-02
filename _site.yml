@@ -42,7 +42,7 @@ navbar:
         - text: "Further resources"
           href: help.html
         - text: "Source code for this site"
-          href: https://guangchuangyu.github.io/treedata-workshop
+          href: https://github.com/GuangchuangYu/treedata-workshop
 output:
   html_document:
     theme: default

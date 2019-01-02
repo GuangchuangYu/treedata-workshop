@@ -19,7 +19,8 @@ R and RStudio are separate downloads and installations. **R** is the underlying 
 Launch RStudio (RStudio, *not R itself*). Ensure that you have internet access, then copy and paste the following command into the **Console** panel (usually the lower-left panel, by default) and hit the Enter/Return key. 
 
 ```r
-pkg <- c("BiocManager", "dplyr", "ggplot2", "tibble", "tidytree"))
+pkg <- c("BiocManager", "dplyr", "ggplot2", 
+      "readr", "tibble", "tidytree"))
 install.packages(pkg)
 ```
 
@@ -40,6 +41,7 @@ Check that you've installed everything correctly by closing and reopening RStudi
 library(BiocManager)
 library(dplyr)
 library(ggplot2)
+library(readr)
 library(tibble)
 library(tidytree)
 ```
