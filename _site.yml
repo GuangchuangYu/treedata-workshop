@@ -34,6 +34,10 @@ navbar:
         - text: "--- ggtree ---"
         - text: "Phylogenetic Trees"
           href: r-ggtree.html
+        - text: "Bonus! -  Phylomoji with ggtree"
+          href: r-ggtree-phylomoji.html
+        - text: "Bonus! -  Phylogenetic tree with images"
+          href: r-ggtree-images.html
   right:
     - icon: fa-question fa-lg
       menu:

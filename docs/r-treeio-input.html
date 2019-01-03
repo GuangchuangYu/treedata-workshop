@@ -458,6 +458,12 @@ div.tocify {
     <li>
       <a href="r-ggtree.html">Phylogenetic Trees</a>
     </li>
+    <li>
+      <a href="r-ggtree-phylomoji.html">Bonus! -  Phylomoji with ggtree</a>
+    </li>
+    <li>
+      <a href="r-ggtree-images.html">Bonus! -  Phylogenetic tree with images</a>
+    </li>
   </ul>
 </li>
       </ul>
@@ -507,10 +513,6 @@ div.tocify {
 </ol>
 <p>Just like R packages from CRAN, you only need to install Bioconductor packages once (<a href="setup.html#bioconductor">instructions here</a>), then load them every time you start a new R session.</p>
 <pre class="r"><code>library(treeio)</code></pre>
-<hr />
-</div>
-<div id="getting-tree-data-from-evolutionary-analysis-result" class="section level2">
-<h2>Getting tree data from evolutionary analysis result</h2>
 <p>Most tree viewer software (including R packages) focus on <strong>Newick</strong> and <strong>NEXUS</strong> file formats, and other evolutionary analysis software might also contains supporting evidence and/or analysis findings within the file that can be further analyzed in R or interpreted in phylogenetic context to help identifying evolutionary patterns.</p>
 <p><strong>treeio</strong> supports several file formats, including:</p>
 <ul>
@@ -533,6 +535,36 @@ div.tocify {
 <li><a href="http://evomics.org/learning/phylogenetics/raxml/">RAxML</a></li>
 <li><a href="https://revbayes.github.io/intro.html">RevBayes</a></li>
 </ul>
+<hr />
+</div>
+<div id="basic-trees" class="section level2">
+<h2>Basic trees</h2>
+<p>Let’s first import a phylogenetic tree in to R. Phylogenetic tree are mainly stored as Newick or Nexus formats that only contains tree structure with (phylogram) or without (cladogram) branch lengths.</p>
+<p>Download the <a href="data/tree.nwk"><strong>tree.nwk</strong> data by clicking here</a> or using the link above. Let’s load the libraries you’ll need if you haven’t already, and then import the tree using <code>read.tree()</code>. Displaying the object itself tells you a little bit about the tree, e.g. number of tips and nodes, a glance of tip (and node if available) labels.</p>
+<pre class="r"><code>library(treeio)
+tree &lt;- read.tree(&quot;data/tree.nwk&quot;)
+tree</code></pre>
+<pre><code>## 
+## Phylogenetic tree with 28 tips and 26 internal nodes.
+## 
+## Tip labels:
+##  Phy000G05U_EMENI, Phy000GDP6_ASPNG, Phy003AMS0_602072, Phy000FJDH_ASPFL, Phy000FCLK_ASPCL, Phy000FQ5O_ASPFU, ...
+## Node labels:
+##  , 0.99985, 0.99985, 0.72129, 0.991353, 0.99985, ...
+## 
+## Unrooted; includes branch lengths.</code></pre>
+<p>The only possible way for a Newick tree to store additional information other than the tree structure is to encode the information as taxa labels. This tree use node label to store support values (<em>e.g.</em> bootstrap values).</p>
+<div id="exercise-1" class="section level3">
+<h3>Exercise 1</h3>
+<p>Look at the help page for <code>?ape::read.tree</code>, specifically the <strong>Details</strong> and <strong>Value</strong> session to explore the components of the <code>phylo</code> object.</p>
+<ol style="list-style-type: decimal">
+<li>Summarize a branch length distribution by Histogram.</li>
+</ol>
+<hr />
+</div>
+</div>
+<div id="getting-tree-data-from-evolutionary-analysis-result" class="section level2">
+<h2>Getting tree data from evolutionary analysis result</h2>
 <p>The <code>treeio</code> package implement several parser functions.</p>
 <table>
 <caption>Parser functions defined in treeio</caption>
@@ -594,6 +626,256 @@ div.tocify {
 </tbody>
 </table>
 <p>After parsing, storage of the tree structure with associated data is made through a S4 class, treedata, defined in the <a href="https://bioconductor.org/packages/treeio/">treeio</a> package. These parsed data are mapped to the tree branches and nodes inside <code>treedata</code> object, so that they can be efficiently used to visually annotate the tree using <a href="https://bioconductor.org/packages/ggtree/">ggtree</a> package.</p>
+<p>Here, we use BEAST output as an example of using these parser functions to import tree with associated data. The details of BEAST output can be found on <a href="http://beast.community/nexus_metacomments.html" class="uri">http://beast.community/nexus_metacomments.html</a>. In summary, it introudces ‘metacomment’ to annotate elements in the standard NEXUS format. The additional information is put in comments so that existing programs can read the tree by ignoring them. <strong>treeio</strong> is able to read the tree with all inserted information stored in BEAST output.</p>
+<pre class="r"><code>beast_tree &lt;- read.beast(&quot;data/MCC_FluA_H3.tree&quot;)
+beast_tree</code></pre>
+<pre><code>## &#39;treedata&#39; S4 object that stored information of
+##  &#39;data/MCC_FluA_H3.tree&#39;.
+## 
+## ...@ phylo: 
+## Phylogenetic tree with 76 tips and 75 internal nodes.
+## 
+## Tip labels:
+##  A/Hokkaido/30-1-a/2013, A/New_York/334/2004, A/New_York/463/2005, A/New_York/452/1999, A/New_York/238/2005, A/New_York/523/1998, ...
+## 
+## Rooted; includes branch lengths.
+## 
+## with the following features available:
+##  &#39;height&#39;,   &#39;height_0.95_HPD&#39;,  &#39;height_median&#39;,    &#39;height_range&#39;, &#39;length&#39;,
+##  &#39;length_0.95_HPD&#39;,  &#39;length_median&#39;,    &#39;length_range&#39;, &#39;posterior&#39;,    &#39;rate&#39;,
+##  &#39;rate_0.95_HPD&#39;,    &#39;rate_median&#39;,  &#39;rate_range&#39;.</code></pre>
+<p>As there are many R package works on the <code>phylo</code> object, <code>treeio</code> provides <code>as.phylo</code> method to convert <code>treedata</code> object to a <code>phylo</code> object, and <code>get.data</code> method to extract associated data stored in <code>treedata</code> object.</p>
+<p>The <a href="https://cran.r-project.org/web/packages/tidytree/index.html">tidytree</a> provides <code>as_tibble</code> method to convert <code>treedata</code> object to tidy data and creates the possibility of manipulating tree data using tidy interface.</p>
+<div id="exercise-2" class="section level3">
+<h3>Exercise 2</h3>
+<ol style="list-style-type: decimal">
+<li>convert the <code>beast_tree</code> to <code>phylo</code> object.</li>
+<li>extract tree associated data from <code>beast_tree</code>.</li>
+<li>convert <code>beast_tree</code> to tidy data.</li>
+<li>create a scatter plot of substitution rate vs branch length of the <code>beast_tree</code></li>
+</ol>
+</div>
+</div>
+<div id="linking-external-data-to-phylogeny" class="section level2">
+<h2>Linking external data to phylogeny</h2>
+<p>There is a wide range of heterogeneous data, such as traits, geographic distritution, experimental and clinical data, <em>etc</em>, that need to be integrated and linked to phylogeny. For example, in the study of viral evolution, tree nodes may associated with epidemiological information, such as location, age and subtype. Functional annotations may need to be mapped on gene trees for comparative genomic studies.</p>
+<p>To facilitate data integration, <strong>treeio</strong> provides <code>full_join</code> method to link external data to phylogeny and stored in <code>treedata</code> object.</p>
+<pre class="r"><code>library(readr)
+
+x &lt;- read.tree(&quot;data/tree_boots.nwk&quot;)
+
+info &lt;- read_csv(&quot;data/tip_data.csv&quot;)
+names(info)[1] &lt;- &#39;label&#39;
+print(info)</code></pre>
+<pre><code>## # A tibble: 7 x 10
+##   label vernacularName imageURL imageLicense imageAuthor infoURL mass_in_kg
+##   &lt;chr&gt; &lt;chr&gt;          &lt;chr&gt;    &lt;chr&gt;        &lt;chr&gt;       &lt;chr&gt;        &lt;dbl&gt;
+## 1 Rang~ Reindeer       http://~ CC-BY-SA     Alexandre ~ http:/~     109.  
+## 2 Cerv~ Red deer       http://~ CC-BY-SA     Sciadopitys http:/~     241.  
+## 3 Bos_~ Cattle         https:/~ CC-BY-SA     Cynthia Si~ http:/~     619.  
+## 4 Ovis~ Asiatic moufl~ http://~ CC-BY-SA     J&lt;U+0161&gt;rg Hempel http:/~      39.1 
+## 5 Suri~ Meerkat        http://~ CC-BY-SA     Sara&amp;Joach~ http:/~       0.73
+## 6 Cyst~ Hooded seal    http://~ CC-BY-SA     Ecomare, S~ http:/~     279.  
+## 7 Meph~ Striped skunk  http://~ CC-BY        Kevin Bowm~ http:/~       2.4 
+## # ... with 3 more variables: trophic_habit &lt;chr&gt;, ncbi_taxid &lt;dbl&gt;,
+## #   rank &lt;chr&gt;</code></pre>
+<pre class="r"><code>d2 &lt;- read_csv(&quot;data/inode_data.csv&quot;)
+names(d2)[1] &lt;- &#39;label&#39;
+
+tree2 &lt;- full_join(as.treedata(x), info, by=&#39;label&#39;)
+tree2</code></pre>
+<pre><code>## &#39;treedata&#39; S4 object&#39;.
+## 
+## ...@ phylo: 
+## Phylogenetic tree with 7 tips and 6 internal nodes.
+## 
+## Tip labels:
+##  Rangifer_tarandus, Cervus_elaphus, Bos_taurus, Ovis_orientalis, Suricata_suricatta, Cystophora_cristata, ...
+## Node labels:
+## [1] &quot;Mammalia&quot;     &quot;Artiodactyla&quot; &quot;Cervidae&quot;     &quot;Bovidae&quot;     
+## [5] &quot;Carnivora&quot;    &quot;Caniformia&quot;  
+## 
+## Rooted; includes branch lengths.
+## 
+## with the following features available:
+##  &#39;&#39;, &#39;vernacularName&#39;,   &#39;imageURL&#39;, &#39;imageLicense&#39;, &#39;imageAuthor&#39;,
+##  &#39;infoURL&#39;,  &#39;mass_in_kg&#39;,   &#39;trophic_habit&#39;,    &#39;ncbi_taxid&#39;,   &#39;rank&#39;.</code></pre>
+<pre class="r"><code>full_join(tree2, d2, by=&#39;label&#39;)</code></pre>
+<pre><code>## &#39;treedata&#39; S4 object&#39;.
+## 
+## ...@ phylo: 
+## Phylogenetic tree with 7 tips and 6 internal nodes.
+## 
+## Tip labels:
+##  Rangifer_tarandus, Cervus_elaphus, Bos_taurus, Ovis_orientalis, Suricata_suricatta, Cystophora_cristata, ...
+## Node labels:
+## [1] &quot;Mammalia&quot;     &quot;Artiodactyla&quot; &quot;Cervidae&quot;     &quot;Bovidae&quot;     
+## [5] &quot;Carnivora&quot;    &quot;Caniformia&quot;  
+## 
+## Rooted; includes branch lengths.
+## 
+## with the following features available:
+##  &#39;&#39;, &#39;vernacularName.x&#39;, &#39;imageURL&#39;, &#39;imageLicense&#39;, &#39;imageAuthor&#39;,
+##  &#39;infoURL.x&#39;,    &#39;mass_in_kg&#39;,   &#39;trophic_habit&#39;,    &#39;ncbi_taxid&#39;,   &#39;rank.x&#39;,
+##  &#39;vernacularName.y&#39;, &#39;infoURL.y&#39;,    &#39;rank.y&#39;,   &#39;bootstrap&#39;,    &#39;posterior&#39;.</code></pre>
+<div id="exercise-3" class="section level3">
+<h3>Exercise 3</h3>
+<ol style="list-style-type: decimal">
+<li>link internal node data (<code>d2</code>) to tree (<code>tree2</code>)</li>
+<li>check whether you have mapped internal node data successful (<em>e.g.</em> bootstrap and posterior)</li>
+<li>create a scatter plot of posterior vs bootstrap values.</li>
+</ol>
+<hr />
+</div>
+</div>
+<div id="exporting-trees-with-data" class="section level2">
+<h2>Exporting trees with data</h2>
+<p><strong>treeio</strong> provides <code>write.beast</code> and <code>write.jtree</code> to export tree with data to a single file. <code>write.beast</code> outputs BEAST compatible file that can be open using <a href="http://tree.bio.ed.ac.uk/software/figtree/">FigTree</a> and many other software - most of them can read the tree by ignoring data.</p>
+<pre class="r"><code>write.beast(tree2)</code></pre>
+<pre><code>## #NEXUS
+## [R-package treeio, Thu Jan 03 22:07:50 2019]
+## 
+## BEGIN TAXA;
+##  DIMENSIONS NTAX = 7;
+##  TAXLABELS
+##      Rangifer_tarandus
+##      Cervus_elaphus
+##      Bos_taurus
+##      Ovis_orientalis
+##      Suricata_suricatta
+##      Cystophora_cristata
+##      Mephitis_mephitis
+##  ;
+## END;
+## BEGIN TREES;
+##  TRANSLATE
+##      1   Rangifer_tarandus,
+##      2   Cervus_elaphus,
+##      3   Bos_taurus,
+##      4   Ovis_orientalis,
+##      5   Suricata_suricatta,
+##      6   Cystophora_cristata,
+##      7   Mephitis_mephitis
+##  ;
+##  TREE * UNTITLED = [&amp;R] (((1[&amp;vernacularName=Reindeer,imageURL=http://media.eol.org/content/2012/06/13/00/48543_orig.jpg,imageLicense=CC-BY-SA,imageAuthor=Alexandre Buisse (Nattfodd),infoURL=http://eol.org/pages/328653/overview,mass_in_kg=109.09,trophic_habit=herbivore,ncbi_taxid=9870,rank=species]:1,2[&amp;vernacularName=Red deer,imageURL=http://media.eol.org/content/2014/09/16/00/20239_orig.jpg,imageLicense=CC-BY-SA,imageAuthor=Sciadopitys,infoURL=http://eol.org/pages/328649/overview,mass_in_kg=240.87,trophic_habit=herbivore,ncbi_taxid=9860,rank=species]:1)Cervidae:1,(3[&amp;vernacularName=Cattle,imageURL=https://media.eol.org/content/2014/09/29/06/46535_orig.jpg,imageLicense=CC-BY-SA,imageAuthor=Cynthia Sims Parr,infoURL=http://eol.org/pages/328699/overview,mass_in_kg=618.64,trophic_habit=herbivore,ncbi_taxid=9913,rank=species]:1,4[&amp;vernacularName=Asiatic mouflon,imageURL=http://media.eol.org/content/2015/05/20/03/80720_orig.jpg,imageLicense=CC-BY-SA,imageAuthor=J&lt;U+0161&gt;rg Hempel,infoURL=http://eol.org/pages/311906/overview,mass_in_kg=39.1,trophic_habit=herbivore,ncbi_taxid=469796,rank=species]:1)Bovidae:1)Artiodactyla:1,(5[&amp;vernacularName=Meerkat,imageURL=http://media.eol.org/content/2016/08/16/05/67138_orig.jpg,imageLicense=CC-BY-SA,imageAuthor=Sara&amp;Joachim,infoURL=http://eol.org/pages/311580/overview,mass_in_kg=0.73,trophic_habit=carnivore,ncbi_taxid=37032,rank=species]:2,(6[&amp;vernacularName=Hooded seal,imageURL=http://media.eol.org/content/2013/06/18/07/63362_orig.jpg,imageLicense=CC-BY-SA,imageAuthor=Ecomare, Salko de Wolf,infoURL=http://eol.org/pages/328632/overview,mass_in_kg=278.9,trophic_habit=omnivore,ncbi_taxid=39293,rank=species]:1,7[&amp;vernacularName=Striped skunk,imageURL=http://media.eol.org/content/2012/06/15/06/75234_orig.jpg,imageLicense=CC-BY,imageAuthor=Kevin Bowman,infoURL=http://eol.org/pages/328593/overview,mass_in_kg=2.4,trophic_habit=omnivore,ncbi_taxid=30548,rank=species]:1)Caniformia:1)Carnivora:1)Mammalia;
+## END;</code></pre>
+<p><code>write.jtree</code> outputs JSON (JavaScript Object Notation) file, which is a lightweight data-interchange format and widely supported in almost all modern programming languages.</p>
+<pre class="r"><code>write.jtree(tree2)</code></pre>
+<pre><code>## {
+##  &quot;tree&quot;: &quot;(((Rangifer_tarandus:1{1},Cervus_elaphus:1{2})Cervidae:1{10},(Bos_taurus:1{3},Ovis_orientalis:1{4})Bovidae:1{11})Artiodactyla:1{9},(Suricata_suricatta:2{5},(Cystophora_cristata:1{6},Mephitis_mephitis:1{7})Caniformia:1{13})Carnivora:1{12})Mammalia{8};&quot;,
+##  &quot;data&quot;:[
+##   {
+##     &quot;edge_num&quot;: 1,
+##     &quot;vernacularName&quot;: &quot;Reindeer&quot;,
+##     &quot;imageURL&quot;: &quot;http://media.eol.org/content/2012/06/13/00/48543_orig.jpg&quot;,
+##     &quot;imageLicense&quot;: &quot;CC-BY-SA&quot;,
+##     &quot;imageAuthor&quot;: &quot;Alexandre Buisse (Nattfodd)&quot;,
+##     &quot;infoURL&quot;: &quot;http://eol.org/pages/328653/overview&quot;,
+##     &quot;mass_in_kg&quot;: 109.09,
+##     &quot;trophic_habit&quot;: &quot;herbivore&quot;,
+##     &quot;ncbi_taxid&quot;: 9870,
+##     &quot;rank&quot;: &quot;species&quot;
+##   },
+##   {
+##     &quot;edge_num&quot;: 2,
+##     &quot;vernacularName&quot;: &quot;Red deer&quot;,
+##     &quot;imageURL&quot;: &quot;http://media.eol.org/content/2014/09/16/00/20239_orig.jpg&quot;,
+##     &quot;imageLicense&quot;: &quot;CC-BY-SA&quot;,
+##     &quot;imageAuthor&quot;: &quot;Sciadopitys&quot;,
+##     &quot;infoURL&quot;: &quot;http://eol.org/pages/328649/overview&quot;,
+##     &quot;mass_in_kg&quot;: 240.87,
+##     &quot;trophic_habit&quot;: &quot;herbivore&quot;,
+##     &quot;ncbi_taxid&quot;: 9860,
+##     &quot;rank&quot;: &quot;species&quot;
+##   },
+##   {
+##     &quot;edge_num&quot;: 3,
+##     &quot;vernacularName&quot;: &quot;Cattle&quot;,
+##     &quot;imageURL&quot;: &quot;https://media.eol.org/content/2014/09/29/06/46535_orig.jpg&quot;,
+##     &quot;imageLicense&quot;: &quot;CC-BY-SA&quot;,
+##     &quot;imageAuthor&quot;: &quot;Cynthia Sims Parr&quot;,
+##     &quot;infoURL&quot;: &quot;http://eol.org/pages/328699/overview&quot;,
+##     &quot;mass_in_kg&quot;: 618.64,
+##     &quot;trophic_habit&quot;: &quot;herbivore&quot;,
+##     &quot;ncbi_taxid&quot;: 9913,
+##     &quot;rank&quot;: &quot;species&quot;
+##   },
+##   {
+##     &quot;edge_num&quot;: 4,
+##     &quot;vernacularName&quot;: &quot;Asiatic mouflon&quot;,
+##     &quot;imageURL&quot;: &quot;http://media.eol.org/content/2015/05/20/03/80720_orig.jpg&quot;,
+##     &quot;imageLicense&quot;: &quot;CC-BY-SA&quot;,
+##     &quot;imageAuthor&quot;: &quot;J&lt;U+0161&gt;rg Hempel&quot;,
+##     &quot;infoURL&quot;: &quot;http://eol.org/pages/311906/overview&quot;,
+##     &quot;mass_in_kg&quot;: 39.1,
+##     &quot;trophic_habit&quot;: &quot;herbivore&quot;,
+##     &quot;ncbi_taxid&quot;: 469796,
+##     &quot;rank&quot;: &quot;species&quot;
+##   },
+##   {
+##     &quot;edge_num&quot;: 5,
+##     &quot;vernacularName&quot;: &quot;Meerkat&quot;,
+##     &quot;imageURL&quot;: &quot;http://media.eol.org/content/2016/08/16/05/67138_orig.jpg&quot;,
+##     &quot;imageLicense&quot;: &quot;CC-BY-SA&quot;,
+##     &quot;imageAuthor&quot;: &quot;Sara&amp;Joachim&quot;,
+##     &quot;infoURL&quot;: &quot;http://eol.org/pages/311580/overview&quot;,
+##     &quot;mass_in_kg&quot;: 0.73,
+##     &quot;trophic_habit&quot;: &quot;carnivore&quot;,
+##     &quot;ncbi_taxid&quot;: 37032,
+##     &quot;rank&quot;: &quot;species&quot;
+##   },
+##   {
+##     &quot;edge_num&quot;: 6,
+##     &quot;vernacularName&quot;: &quot;Hooded seal&quot;,
+##     &quot;imageURL&quot;: &quot;http://media.eol.org/content/2013/06/18/07/63362_orig.jpg&quot;,
+##     &quot;imageLicense&quot;: &quot;CC-BY-SA&quot;,
+##     &quot;imageAuthor&quot;: &quot;Ecomare, Salko de Wolf&quot;,
+##     &quot;infoURL&quot;: &quot;http://eol.org/pages/328632/overview&quot;,
+##     &quot;mass_in_kg&quot;: 278.9,
+##     &quot;trophic_habit&quot;: &quot;omnivore&quot;,
+##     &quot;ncbi_taxid&quot;: 39293,
+##     &quot;rank&quot;: &quot;species&quot;
+##   },
+##   {
+##     &quot;edge_num&quot;: 7,
+##     &quot;vernacularName&quot;: &quot;Striped skunk&quot;,
+##     &quot;imageURL&quot;: &quot;http://media.eol.org/content/2012/06/15/06/75234_orig.jpg&quot;,
+##     &quot;imageLicense&quot;: &quot;CC-BY&quot;,
+##     &quot;imageAuthor&quot;: &quot;Kevin Bowman&quot;,
+##     &quot;infoURL&quot;: &quot;http://eol.org/pages/328593/overview&quot;,
+##     &quot;mass_in_kg&quot;: 2.4,
+##     &quot;trophic_habit&quot;: &quot;omnivore&quot;,
+##     &quot;ncbi_taxid&quot;: 30548,
+##     &quot;rank&quot;: &quot;species&quot;
+##   },
+##   {
+##     &quot;edge_num&quot;: 8
+##   },
+##   {
+##     &quot;edge_num&quot;: 9
+##   },
+##   {
+##     &quot;edge_num&quot;: 10
+##   },
+##   {
+##     &quot;edge_num&quot;: 11
+##   },
+##   {
+##     &quot;edge_num&quot;: 12
+##   },
+##   {
+##     &quot;edge_num&quot;: 13
+##   }
+## ],
+##  &quot;metadata&quot;: {&quot;info&quot;: &quot;R-package treeio&quot;, &quot;data&quot;: &quot;Thu Jan 03 22:07:50 2019&quot;}
+## }</code></pre>
+<div id="exercise-4" class="section level3">
+<h3>Exercise 4</h3>
+<ol style="list-style-type: decimal">
+<li>output the file to a single file by passing <code>file = "your_file_name"</code> to <code>write.beast</code> or <code>write.jtree</code>.</li>
+<li>re-read the output file into R using <code>read.beast</code> or <code>read.jtree</code>.</li>
+</ol>
+</div>
 </div>
 
 <div class="footer">

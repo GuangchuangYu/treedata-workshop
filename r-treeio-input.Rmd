@@ -37,9 +37,6 @@ Just like R packages from CRAN, you only need to install Bioconductor packages o
 library(treeio)
 ```
 
-----
-
-## Getting tree data from evolutionary analysis result
 
 Most tree viewer software (including R packages) focus on **Newick** and **NEXUS** file formats, and other evolutionary analysis software might also contains supporting evidence and/or analysis findings within the file that can be further analyzed in R or interpreted in phylogenetic context to help identifying evolutionary patterns.
 
@@ -66,6 +63,41 @@ and software output from:
 + [RAxML](http://evomics.org/learning/phylogenetics/raxml/)
 + [RevBayes](https://revbayes.github.io/intro.html)
 
+----
+
+
+
+## Basic trees
+
+Let's first import a phylogenetic tree in to R. Phylogenetic tree are mainly stored as Newick or Nexus formats that only contains tree structure with (phylogram) or without (cladogram) branch lengths.
+
+Download the [**tree.nwk** data by clicking here](data/tree.nwk) or using the link above. Let's load the libraries you'll need if you haven't already, and then import the tree using `read.tree()`. Displaying the object itself tells you a little bit about the tree, e.g. number of tips and nodes, a glance of tip (and node if available) labels.
+
+```{r}
+library(treeio)
+tree <- read.tree("data/tree.nwk")
+tree
+```
+
+The only possible way for a Newick tree to store additional information other than the tree structure is to encode the information as taxa labels. This tree use node label to store support values (*e.g.* bootstrap values). 
+
+
+### Exercise 1
+
+Look at the help page for `?ape::read.tree`, specifically the **Details** and **Value** session to explore the components of the `phylo` object.
+
+1. Summarize a branch length distribution by Histogram.
+
+```{r echo=F, eval=F}
+hist(tree$edge.length)
+```
+
+
+----
+
+## Getting tree data from evolutionary analysis result
+
+
 The `treeio` package implement several parser functions.
 
 ```{r treeio-function, echo=F, message=FALSE}
@@ -89,3 +121,97 @@ knitr::kable(ff, caption = "Parser functions defined in treeio", booktabs = T)
 ```
 
 After parsing, storage of the tree structure with associated data is made through a S4 class, treedata, defined in the [treeio](https://bioconductor.org/packages/treeio/) package. These parsed data are mapped to the tree branches and nodes inside `treedata` object, so that they can be efficiently used to visually annotate the tree using [ggtree](https://bioconductor.org/packages/ggtree/) package.
+
+
+Here, we use BEAST output as an example of using these parser functions to import tree with associated data. The details of BEAST output can be found on <http://beast.community/nexus_metacomments.html>. In summary, it introudces 'metacomment' to annotate elements in the standard NEXUS format. The additional information is put in comments so that existing programs can read the tree by ignoring them. **treeio** is able to read the tree with all inserted information stored in BEAST output. 
+
+
+```{r}
+beast_tree <- read.beast("data/MCC_FluA_H3.tree")
+beast_tree
+```
+
+As there are many R package works on the `phylo` object, `treeio` provides `as.phylo` method to convert `treedata` object to a `phylo` object, and `get.data` method to extract associated data stored in `treedata` object.
+
+The [tidytree](https://cran.r-project.org/web/packages/tidytree/index.html) provides `as_tibble` method to convert `treedata` object to tidy data and creates the possibility of manipulating tree data using tidy interface.
+
+
+### Exercise 2
+
+
+1. convert the `beast_tree` to `phylo` object.
+2. extract tree associated data from `beast_tree`.
+3. convert `beast_tree` to tidy data.
+4. create a scatter plot of substitution rate vs branch length of the `beast_tree`
+
+
+```{r echo=F, eval=F}
+as.phylo(beast_tree)
+get.data(beast_tree)
+library(tidytree)
+d = as_tibble(beast_tree)
+require(ggplot2)
+ggplot(d, aes(branch.length, rate_median)) + geom_point()
+```
+
+## Linking external data to phylogeny
+
+There is a wide range of heterogeneous data, such as traits, geographic distritution, experimental and clinical data, *etc*, that need to be integrated and linked to phylogeny. For example, in the study of viral evolution, tree nodes may associated with epidemiological information, such as location, age and subtype. Functional annotations may need to be mapped on gene trees for comparative genomic studies. 
+
+To facilitate data integration, **treeio** provides `full_join` method to link external data to phylogeny and stored in `treedata` object.
+
+```{r}
+library(readr)
+
+x <- read.tree("data/tree_boots.nwk")
+
+info <- read_csv("data/tip_data.csv")
+names(info)[1] <- 'label'
+print(info)
+
+d2 <- read_csv("data/inode_data.csv")
+names(d2)[1] <- 'label'
+
+tree2 <- full_join(as.treedata(x), info, by='label')
+tree2
+full_join(tree2, d2, by='label')
+```
+
+### Exercise 3
+
+
+1. link internal node data (`d2`) to tree (`tree2`)
+2. check whether you have mapped internal node data successful (*e.g.* bootstrap and posterior)
+3. create a scatter plot of posterior vs bootstrap values.
+
+```{r eval=F, echo=F}
+tree3 <- full_join(tree2, d2, by='label')
+
+c('posterior', 'bootstrap') %in% 
+get.fields(tree3)
+
+ggplot(as_tibble(tree3), aes(bootstrap, posterior)) + 
+  geom_point() + geom_smooth(method='lm')
+```
+
+----
+
+## Exporting trees with data
+
+**treeio** provides `write.beast` and `write.jtree` to export tree with data to a single file. `write.beast` outputs BEAST compatible file that can be open using [FigTree](http://tree.bio.ed.ac.uk/software/figtree/) and many other software - most of them can read the tree by ignoring data.
+
+
+```{r}
+write.beast(tree2)
+```
+
+`write.jtree` outputs JSON (JavaScript Object Notation) file, which is a lightweight data-interchange format and widely supported in almost all modern programming languages.
+
+```{r}
+write.jtree(tree2)
+```
+
+### Exercise 4
+
+1. output the file to a single file by passing `file = "your_file_name"` to `write.beast` or `write.jtree`.
+2. re-read the output file into R using `read.beast` or `read.jtree`.

@@ -1,0 +1,48 @@
+---
+title: "Bonus! -  Phylogenetic tree with images"
+---
+
+
+```{r init, include=F}
+library(knitr)
+opts_chunk$set(message=FALSE, warning=FALSE, eval=TRUE, echo=TRUE, cache=TRUE)
+.ex <- 1
+# library(ggplot2)
+# theme_set(theme_bw(base_size=16) + theme(strip.background = element_blank()))
+# knitr::knit_exit()
+
+library(ggimage)
+library(ggplot2)
+library(ggtree)
+```
+
+```{r fig.width=8.5, fig.height=7.5, message=F, warning=F}
+library(ggimage)
+library(ggtree)
+
+nwk <- "((((bufonidae, dendrobatidae), ceratophryidae), (centrolenidae, leptodactylidae)), hylidae);"
+
+x = read.tree(text = nwk)
+ggtree(x) + xlim(NA, 7) + ylim(NA, 6.2) +
+    geom_tiplab(aes(image=paste0("img/frogs/", label, '.jpg')), 
+                geom="image", offset=2, align=2, size=.2)  + 
+    geom_tiplab(geom='label', offset=1, hjust=.5) + 
+    geom_image(x=.8, y=5.5, image="img/frogs/frog.jpg", size=.2)
+```
+
+```{r}
+tree <- ape::read.nexus("https://raw.githubusercontent.com/rgriff23/Dissertation/master/Chapter_2/data/tree.nex")
+phylopic_info <- data.frame(node = c(124, 113, 110, 96, 89, 70),
+                            phylopic = c("7fb9bea8-e758-4986-afb2-95a2c3bf983d",
+                                        "bac25f49-97a4-4aec-beb6-f542158ebd23",
+                                        "f598fb39-facf-43ea-a576-1861304b2fe4",
+                                        "aceb287d-84cf-46f1-868c-4797c4ac54a8",
+                                        "0174801d-15a6-4668-bfe0-4c421fbe51e8",
+                                        "72f2f854-f3cd-4666-887c-35d5c256ab0f"),
+                            species = c("galagoids", "lemurs", "tarsiers",
+                                        "cebids", "hominoids", "cercopithecoids"))
+pg <- ggtree(tree)
+pg %<+% phylopic_info + 
+  geom_nodelab(aes(image=phylopic, color=species, subset=!is.na(species)), geom="phylopic") + 
+  theme(legend.position=c(.1, .8))
+```

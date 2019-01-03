@@ -11,7 +11,7 @@
 
 
 
-<title>Further Resources</title>
+<title>Bonus! - Phylomoji with ggtree</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -496,75 +496,47 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Further Resources</h1>
+<h1 class="title toc-ignore">Bonus! - Phylomoji with ggtree</h1>
 
 </div>
 
 
-<div id="r-resources" class="section level2">
-<h2>R resources</h2>
-<div id="getting-help" class="section level3">
-<h3>Getting Help</h3>
-<ul>
-<li><a href="http://lmgtfy.com/?q=R+Error+in+library+there+is+no+package+called">Google it!</a>: Try Googling generalized versions of any error messages you get. That is, remove text that is specific to your problem (names of variables, paths, datasets, etc.). You’d be surprised how many other people have probably had the same problem and solved it.</li>
-<li><a href="https://groups.google.com/forum/#!forum/bioc-ggtree">Google Group</a>: Always search before asking, and make a <a href="https://gist.github.com/talonsensei/e1fad082657054207f249ec98f0920eb">reproducible example</a> if you want to get useful advice. This is a minimal example that allows others who are trying to help you to see the error themselves.</li>
-<li>Read package vignettes. For example, see the <a href="https://bioconductor.org/packages/release/bioc/html/ggtree.html">ggtre Bioconductor page</a>, scroll about halfway down to see the <a href="https://bioconductor.org/packages/release/bioc/vignettes/ggtree/inst/doc/ggtree.html">ggtree introduction</a> vignette.</li>
-</ul>
+<p><a href="https://twitter.com/hashtag/phylomoji?src=hash">#phylomoji</a> is fun and it is internally supported by <strong>ggtree</strong>.</p>
+<p>Here, we will use <strong>ggtree</strong> to recreate the figure:</p>
+<p><a href="https://twitter.com/OxyMLZ/status/1055586178651451392"><img src="img/phylomoji.png" /></a></p>
+<pre class="r"><code>library(ggplot2)
+library(ggtree)
+
+tt = &#39;((snail,mushroom),(((sunflower,evergreen_tree),leaves),green_salad));&#39;
+tree = read.tree(text = tt)
+d &lt;- data.frame(label = c(&#39;snail&#39;,&#39;mushroom&#39;, &#39;sunflower&#39;,
+                          &#39;evergreen_tree&#39;,&#39;leaves&#39;, &#39;green_salad&#39;),
+                group = c(&#39;animal&#39;, &#39;fungi&#39;, &#39;flowering plant&#39;,
+                          &#39;conifers&#39;, &#39;ferns&#39;, &#39;mosses&#39;))
+ggtree(tree, linetype = &quot;dashed&quot;, size=1, color=&#39;firebrick&#39;) %&lt;+% d + 
+  xlim(0, 4.5) + ylim(0.5, 6.5) +
+  geom_tiplab(aes(color=label), parse=&quot;emoji&quot;, size=15, vjust=.25) +
+  geom_tiplab(aes(label = group), geom=&quot;label&quot;, x=3.5, hjust=.5)</code></pre>
+<p><img src="r-ggtree-phylomoji_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+<p>With <strong>ggtree</strong>, it is easy to generate phylomoji. The emoji is treated as <strong>text</strong>, like abc. We can use emojis to label taxa, clade, color and ratate emoji with any given color and angle.</p>
+<div id="emoji-in-cirular-layout-tree" class="section level2">
+<h2>emoji in cirular layout tree</h2>
+<pre class="r"><code>ggtree(tree, layout = &quot;circular&quot;, size=1) + 
+  geom_tiplab2(aes(color=label), parse=&quot;emoji&quot;, size=15, vjust=.25)</code></pre>
+<p><img src="r-ggtree-phylomoji_files/figure-html/unnamed-chunk-2-1.png" width="576" /></p>
 </div>
-<div id="general-r-resources" class="section level3">
-<h3>General R Resources</h3>
-<ul>
-<li><a href="http://tryr.codeschool.com/">TryR</a>: An interactive, browser-based R tutor</li>
-<li><a href="http://swirlstats.com/">Swirl</a>: An R package that teaches you R (<em>and statistics!</em>) from within R</li>
-<li><a href="https://stat545-ubc.github.io/">Jenny Bryan’s Stat 545 “Data wrangling, exploration, and analysis with R” course material</a>: An excellent resource for learning R, dplyr, and ggplot2</li>
-<li><a href="https://www.datacamp.com/courses/free-introduction-to-r">DataCamp’s free introduction to R</a></li>
-<li><a href="https://www.datacamp.com/courses">More DataCamp courses</a> (UVA’s education benefits will cover these!).</li>
-<li><a href="https://www.rstudio.com/resources/cheatsheets/">RStudio’s printable cheat sheets</a></li>
-<li><a href="http://rseek.org/">Rseek</a>: A custom Google search for R-related sites</li>
-<li>Bioconductor <a href="https://www.bioconductor.org/help/package-vignettes/">vignettes</a>, <a href="https://www.bioconductor.org/help/workflows/">workflows</a>, and <a href="https://www.bioconductor.org/help/course-materials/">course/conference materials</a></li>
-</ul>
-</div>
-<div id="dplyr-resources" class="section level3">
-<h3>dplyr resources</h3>
-<ul>
-<li><a href="https://cran.rstudio.com/web/packages/dplyr/vignettes/introduction.html">The dplyr vignette</a></li>
-<li><a href="http://www.dataschool.io/dplyr-tutorial-for-faster-data-manipulation-in-r/">A longer dplyr tutorial with video and code</a></li>
-<li><a href="http://genomicsclass.github.io/book/pages/dplyr_tutorial.html">The dplyr tutorial from the HarvardX Biomedical Data Science MOOC</a></li>
-<li><a href="https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf">A dplyr cheat sheet from RStudio</a></li>
-</ul>
-</div>
-<div id="ggplot2-resources" class="section level3">
-<h3>ggplot2 resources</h3>
-<ul>
-<li><a href="http://docs.ggplot2.org/">The official ggplot2 documentation</a></li>
-<li><a href="http://amzn.to/1akjqsR">The ggplot2 book</a>, edition 1, by the developer, Hadley Wickham</li>
-<li><a href="https://github.com/hadley/ggplot2-book">New version of the ggplot2 book, freely available on GitHub</a></li>
-<li><a href="https://groups.google.com/d/forum/ggplot2">The ggplot2 Google Group</a> (mailing list, support forum)</li>
-<li><a href="http://learnr.wordpress.com/">LearnR</a>: A blog with a good number of posts describing how to reproduce various kind of plots using ggplot2</li>
-<li><a href="http://stackoverflow.com/questions/tagged/ggplot2">SO questions tagged with ggplot2</a></li>
-<li><a href="http://shinyapps.stat.ubc.ca/r-graph-catalog/">A catalog of graphs made with ggplot2, complete with accompanying R code</a></li>
-<li><a href="https://www.rstudio.com/wp-content/uploads/2015/05/ggplot2-cheatsheet.pdf">RStudio’s ggplot2 cheat sheet</a></li>
-</ul>
-</div>
-<div id="treeio-resources" class="section level3">
-<h3>treeio resources</h3>
-<ul>
-<li><a href="https://bioconductor.org/packages/release/bioc/vignettes/treeio/inst/doc/Importer.html">Importing trees with data</a></li>
-<li><a href="https://bioconductor.org/packages/release/bioc/vignettes/treeio/inst/doc/Exporter.html">Exporting trees with data</a></li>
-</ul>
-</div>
-<div id="ggtree-resources" class="section level3">
-<h3>ggtree resources</h3>
-<ul>
-<li><a href="https://guangchuangyu.github.io/software/ggtree/">ggtree homepage</a></li>
-<li><a href="https://groups.google.com/forum/#!forum/bioc-ggtree">The ggtree google group</a></li>
-<li><a href="https://bioconductor.org/packages/release/bioc/vignettes/ggtree/inst/doc/ggtree.html">ggtree Introduction</a></li>
-<li><a href="https://bioconductor.org/packages/release/bioc/vignettes/ggtree/inst/doc/treeVisualization.html">Tree Visualization</a></li>
-<li><a href="https://bioconductor.org/packages/release/bioc/vignettes/ggtree/inst/doc/treeManipulation.html">Tree Manipulation</a></li>
-<li><a href="https://bioconductor.org/packages/release/bioc/vignettes/ggtree/inst/doc/treeAnnotation.html">Tree Annotation</a></li>
-<li><a href="https://guangchuangyu.github.io/software/ggtree/vignettes/phylomoji.html">Phylomoji</a></li>
-</ul>
-</div>
+<div id="emoji-to-label-clades" class="section level2">
+<h2>emoji to label clades</h2>
+<pre class="r"><code>set.seed(123)
+tr &lt;- rtree(30)
+ggtree(tr) + xlim(NA, 5) +
+    geom_cladelabel(node=41, label=&quot;chicken&quot;, parse=&quot;emoji&quot;,
+                    fontsize=12, align=TRUE, color=&quot;firebrick&quot;) +
+    geom_cladelabel(node=51, label=&quot;duck&quot;, parse=&quot;emoji&quot;,
+                    fontsize=12, align=TRUE, color=&quot;steelblue&quot;) +
+    geom_cladelabel(node=32, label=&quot;family&quot;, parse=&quot;emoji&quot;,
+                    fontsize=12, align=TRUE, color=&quot;darkkhaki&quot;)</code></pre>
+<p><img src="r-ggtree-phylomoji_files/figure-html/unnamed-chunk-3-1.png" width="576" /></p>
 </div>
 
 <div class="footer">
