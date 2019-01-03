@@ -1,6 +1,6 @@
-# 4-VA JMU 2017 Biological Data Science Workshop
+# BMB209 SDU 2019 Phylogenetic Tree Data Integration and Visualization Workshop
 
-This repo contains all the source material and rendered content for the 4-VA JMU 2017 Biological Data Science Workshop.
+This repo contains all the source material and rendered content for the BMB209 SDU 2019 Phylogenetic Tree Data Integration and Visualization Workshop.
 
-- Rendered site: [4va.github.io/biodatasci](http://4va.github.io/biodatasci)
+- Rendered site: [guangchuangyu.github.io/treedata-workshop/](https://guangchuangyu.github.io/treedata-workshop/)
 - [How to contribute to this repo](CONTRIBUTING.markdown#contributing)
