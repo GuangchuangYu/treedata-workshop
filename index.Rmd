@@ -19,7 +19,7 @@ This workshop introduces Bioconductor packages, treeio and ggtree, for importing
 
 
 **_Instructor_: Guangchuang Yu**&nbsp;
-<a href="mailto:guangchuangyu@gmail.com"><i class="fa fa-envelope"></i></a>
+<a href="mailto:guangchuangyu@gmail.com" target="_blank"><i class="fa fa-envelope"></i></a>
 <a href="http://portal.smu.edu.cn/jcyxy/info/1084/2203.htm" target="_blank"><i class="fa fa-university"></i></a>
 <a href="https://twitter.com/guangchuangyu" target="_blank"><i class="fa fa-twitter"></i></a>
 <a href="https://github.com/GuangchuangYu/" target="_blank"><i class="fa fa-github"></i></a>
