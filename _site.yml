@@ -58,4 +58,4 @@ output:
       in_header: _include/in_header.html
       after_body: _include/after_body.html
 
-exclude: ["LICENSE", "README.markdown", "CONTRIBUTING.markdown", "*.Rproj", "*.key", "*.psd"]
+exclude: ["LICENSE", "README.markdown", "CONTRIBUTING.markdown", "Makefile", "*.Rproj", "*.key", "*.psd"]

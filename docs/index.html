@@ -11,7 +11,7 @@
 
 
 
-<title>4-VA JMU 2017 Biological Data Science Workshop</title>
+<title>BMB209 SDU 2019 Phylogenetic Tree Data Integration and Visualization Workshop</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -490,53 +490,24 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">4-VA JMU 2017 Biological Data Science Workshop</h1>
+<h1 class="title toc-ignore">BMB209 SDU 2019 Phylogenetic Tree Data Integration and Visualization Workshop</h1>
 
 </div>
 
 
-<p>This workshop 4-VA sponsored workshop introduces methods, tools, and software for reproducibly managing, manipulating, analyzing, and visualizing large-scale biomedical data using the R statistical computing environment.</p>
+<p>This workshop introduces Bioconductor packages, treeio and ggtree, for importing, linking, exporting and visualizing phylogenetic tree with heterogeneous associated data using the R statistical computing environment.</p>
 <div id="general-information" class="section level2">
 <h2>General Information</h2>
-<div id="logistics" class="section level3">
-<h3>Logistics</h3>
-<p><strong><em>When</em>: June 2017</strong></p>
-<table>
-<thead>
-<tr class="header">
-<th>Date</th>
-<th>Time</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Weds, June 14</td>
-<td>8:30am - 5:00pm</td>
-</tr>
-<tr class="even">
-<td>Thurs, June 15</td>
-<td>8:30am - 12:00pm</td>
-</tr>
-<tr class="odd">
-<td>Weds, June 21</td>
-<td>8:30am - 5:00pm</td>
-</tr>
-<tr class="even">
-<td>Thurs, June 22</td>
-<td>8:30am - 12:00pm</td>
-</tr>
-</tbody>
-</table>
-<p><strong><em>Where</em>: Health Sciences Library Carter Classroom</strong><br />
-<small>If you are driving please allow an extra 30 minutes to find parking and walk to the HSL building. The HSL’s street address is <a href="https://goo.gl/maps/iZqX6RhDuJ22">1350 Jefferson Park Avenue</a>. The closest parking garage is the <a href="http://www.virginia.edu/parking/facilities/11thstreet.html">11th Street Parking Garage</a>. You’ll need to grab a parking ticket when you drive in, take the ticket with you, and then pay at the customer service or “Pay-On-Foot Station” before exiting the garage. Alternatively, there may be street parking or other garage parking options available nearby off <a href="https://goo.gl/maps/2ew6MhXGAmA2">West Main St</a>. Once at the entrance to the HSL, <a href="https://med.virginia.edu/phs/faculty-and-staff-directory/stephen-d-turner-ph-d/">call Stephen</a> to let you in. The Carter classroom is in the HSL, downstairs one floor, to the right, across from my office.</small></p>
-<p><strong><em>Instructor</em>: Stephen Turner</strong>  <a href="http://www.google.com/recaptcha/mailhide/d?k=01Wp6BFjxhU6BE1ONDOeDAZg==&amp;c=hClvy-RObaqm8ONK69PMtLKUh74mVHLjokUJXLgkUHk=" onclick="window.open('http://www.google.com/recaptcha/mailhide/d?k\07501Wp6BFjxhU6BE1ONDOeDAZg\75\75\46c\75hClvy-RObaqm8ONK69PMtLKUh74mVHLjokUJXLgkUHk\075', '', 'toolbar=0,scrollbars=0,location=0,statusbar=0,menubar=0,resizable=0,width=500,height=300'); return false;" title="Reveal this e-mail address"><i class="fa fa-envelope"></i></a> <a href="https://med.virginia.edu/phs/faculty-and-staff-directory/stephen-d-turner-ph-d/" target="_blank"><i class="fa fa-phone"></i></a> <a href="https://twitter.com/genetics_blog" target="_blank"><i class="fa fa-twitter"></i></a> <a href="https://github.com/stephenturner/" target="_blank"><i class="fa fa-github"></i></a> <a href="http://www.gettinggeneticsdone.com/" target="_blank"><i class="fa fa-rss"></i></a><br />
-<small>Stephen Turner, Ph.D. is faculty in the Department of Public Health Sciences, and director of the <a href="http://bioinformatics.virginia.edu">Bioinformatics Core</a> at the UVA School of Medicine.</small></p>
-</div>
+<p><a href="https://odinlister.sdu.dk/fagbesk/internkode/BMB209/en" class="uri">https://odinlister.sdu.dk/fagbesk/internkode/BMB209/en</a></p>
+<p><strong><em>When</em>: Jan. 2019</strong></p>
+<p><strong><em>Where</em>: University of Southern Denmark, Odense</strong></p>
+<p><strong><em>Instructor</em>: Guangchuang Yu</strong>  <a href="mailto:guangchuangyu@gmail.com"><i class="fa fa-envelope"></i></a> <a href="http://portal.smu.edu.cn/jcyxy/info/1084/2203.htm" target="_blank"><i class="fa fa-university"></i></a> <a href="https://twitter.com/guangchuangyu" target="_blank"><i class="fa fa-twitter"></i></a> <a href="https://github.com/GuangchuangYu/" target="_blank"><i class="fa fa-github"></i></a> <a href="http://guangchuangyu.github.io" target="_blank"><i class="fa fa-rss"></i></a><br />
+<small>Guangchuang Yu, Ph.D. is faculty in the School of Basic Medical Science at the Southern Medical University.</small></p>
 <div id="about-this-workshop" class="section level3">
 <h3>About this workshop</h3>
-<p>This workshop introduces methods, tools, and software for reproducibly managing, manipulating, analyzing, and visualizing large-scale biomedical data. Specifically, the course introduces the R statistical computing environment and packages for manipulating and visualizing high-dimensional data, covers strategies for reproducible research, and culminates with analyses of real experimental NGS data using R and Bioconductor packages.</p>
-<p><strong>This is not a statistics class.</strong> Some general knowledge of statistics and study design is helpful, but isn’t strictly required. If time allows, there is an optional session on statistics that we can cover.</p>
-<p><strong>This is not a <em>“Tool X”</em> or <em>“Software Y”</em> class.</strong> I want you to take away from this workshop the ability to use an extremely powerful scientific computing environment (R) to do many of the things that you’ll do <em>across study designs and disciplines</em> – managing, manipulating, visualizing, and analyzing large, sometimes high-dimensional data. Whether that data is gene expression data from yeast, microbial genomics data from <em>B. pertussis</em>, public health data from <a href="http://www.gapminder.org/">Gapminder</a>, RNA-seq data from humans, or truck routing data from FedEx, you’ll need the same computational know-how and data literacy to do the same kinds of basic tasks in each. I might show you how to use specific tools here and there (DESeq2 for RNA-seq analysis, ggtree for drawing phylogenetic trees, etc.), but these are not important – you probably won’t be using the same specific software or methods 10 years from now, but you’ll still use the same underlying data and computational foundation. <strong>That</strong> is the point of this workshop – to arm you with a basic foundation, and more importantly, to <strong>enable you to figure out how to use <em>this tool</em> or <em>that tool</em> on your own</strong>, when you need to.</p>
+<p>This workshop introduces Bioconductor packages, treeio and ggtree, for importing, linking, exporting and visualizing phylogenetic tree with heterogeneous associated data using the R statistical computing environment. Specifically, the course introduces the <strong>treeio</strong> package for parsing a number of software outputs that contain phylogenetic tree with evolutionary evidences, linking external data to the phylogenetic tree structure and exportingh tree with data in a single file, and the <strong>ggtree</strong> package for visualizing and annotating phylogenetic tree with covariates and other assoicated data.</p>
+<p><strong>This is not an R class.</strong> Some general knowledge of the R language is helpful.</p>
+<p><strong>This is not a <em>“How to build phylogenetic tree”</em> class.</strong> There are a number of upstream software, including IQ-tree and RAxML for building phylogenetic tree, BEAST and PAML for inferring evolutionary evidences. This course only cover <strong>downstream</strong> interpretation – managing, manipulating, visualizing and analyzing phylogenetic associated data in evolutionary context.</p>
 </div>
 </div>
 <div id="setup" class="section level2">
@@ -545,48 +516,11 @@ div.tocify {
 <p>You should set aside a couple hours to download, install, and test all the software needed for the course. All the software we’re using in class is open-source and freely available online. This setup must be completed <em>prior to class</em>, as we will not have much time for troubleshooting software installation issues during class.</p>
 <p>After installing and testing the software we’ll be using, please download the data as instructed, and review the required reading <em>prior to class</em>.</p>
 </div>
-<div id="course-schedule" class="section level2">
-<h2>Course Schedule</h2>
-<div id="core-sessions" class="section level3">
-<h3>Core sessions</h3>
-<div id="session-1-intro-to-r" class="section level4">
-<h4>Session 1: Intro to R</h4>
-<p>This novice-level introduction is directed toward life scientists with little to no experience with statistical computing or bioinformatics. This interactive introduction will introduce the R statistical computing environment. The first part of this workshop will demonstrate very basic functionality in R, including functions, functions, vectors, creating variables, getting help, filtering, data frames, plotting, and reading/writing files.</p>
-</div>
-<div id="session-2-advanced-data-manipulation-with-r" class="section level4">
-<h4>Session 2: Advanced Data Manipulation with R</h4>
-<p>Data analysis involves a large amount of janitor work – munging and cleaning data to facilitate downstream data analysis. This session assumes a basic familiarity with R and covers tools and techniques for advanced data manipulation. It will cover data cleaning and “tidy data,” and will introduce R packages that enable data manipulation, analysis, and visualization using split-apply-combine strategies. Upon completing this lesson, students will be able to use the <em>dplyr</em> package in R to effectively manipulate and conditionally compute summary statistics over subsets of a “big” dataset containing many observations.</p>
-</div>
-<div id="session-3-reproducible-research-dynamic-documents" class="section level4">
-<h4>Session 3: Reproducible Research &amp; Dynamic Documents</h4>
-<p>Contemporary life sciences research is plagued by reproducibility issues. This session covers some of the barriers to reproducible research and how to start to address some of those problems during the data management and analysis phases of the research life cycle. In this session we will cover using R and dynamic document generation with RMarkdown and RStudio to weave together reporting text with executable R code to automatically generate reports in the form of PDF, Word, or HTML documents.</p>
-</div>
-<div id="session-4-advanced-data-visualization-with-r-and-ggplot2" class="section level4">
-<h4>Session 4: Advanced Data Visualization with R and ggplot2</h4>
-<p>This session will cover fundamental concepts for creating effective data visualization and will introduce tools and techniques for visualizing large, high-dimensional data using R. We will review fundamental concepts for visually displaying quantitative information, such as using series of small multiples, avoiding “chart-junk,” and maximizing the data-ink ratio. After briefly covering data visualization using base R graphics, we will introduce the <em>ggplot2</em> package for advanced high-dimensional visualization. We will cover the grammar of graphics (geoms, aesthetics, stats, and faceting), and using ggplot2 to create plots layer-by-layer. Upon completing this lesson, students will be able to use R to explore a high-dimensional dataset by faceting and scaling arbitrarily complex plots in small multiples.</p>
-</div>
-<div id="session-5-visualizing-and-annotating-phylogenetic-trees" class="section level4">
-<h4>Session 5: Visualizing and Annotating Phylogenetic Trees</h4>
-<p>This lesson demonstrates how to use R and ggtree, an extension of the ggplot2 package, to visualize and annotate phylogenetic trees. This lesson does <em>not</em> cover methods and software for <em>generating</em> phylogenetic trees, nor does it it cover <em>interpreting</em> phylogenies. Genome-wide sequencing allows for examination of the entire genome, and from this, many methods and software tools exist for comparative genomics using SNP- and gene-based phylogenetic analysis, either from unassembled sequencing reads, draft assemblies/contigs, or complete genome sequences. These methods are beyond the scope of this lesson.</p>
-</div>
-<div id="session-6-introduction-to-rna-seq-data-analysis" class="section level4">
-<h4>Session 6: Introduction to RNA-seq Data Analysis</h4>
-<p>This session focuses on analyzing real data from a biological application - analyzing RNA-seq data for differentially expressed genes. This session provides an introduction to RNA-seq data analysis, involving reading in count data from an RNA-seq experiment, exploring the data using base R functions and then analysis with the DESeq2 Bioconductor package. The session will conclude with downstream pathway analysis and exploring the biological and functional context of the results.</p>
-</div>
-</div>
-<div id="optional-sessions" class="section level3">
-<h3>Optional sessions</h3>
-<div id="elective-1-essential-statistics" class="section level4">
-<h4>Elective 1: Essential Statistics</h4>
-<p>This session will provide hands-on instruction and exercises covering basic statistical analysis in R. This will cover descriptive statistics, t-tests, linear models, chi-square, clustering, dimensionality reduction, and resampling strategies. We will also cover methods for “tidying” model results for downstream visualization and summarization.</p>
-</div>
-</div>
-</div>
 <div id="faq" class="section level2">
 <h2>FAQ</h2>
 <div id="what-are-the-pre-requisites" class="section level4">
 <h4>What are the pre-requisites?</h4>
-<p><em>There are none!</em> <a href="setup.html">(But there is some required reading and software setup required before the workshop)</a>. This class doesn’t assume any knowledge of programming or using a command-line interface, but if you’ve ever had any experience here, the content won’t come as so much of a shock. But <em>don’t panic.</em> Command-line interfaces and programming languages like R are <em>incredibly powerful</em> and will be utterly transformative on your research. There’s a learning curve, and it’s near-vertical in the beginning, but it’s surmountable and the payoff is worth it!</p>
+<p><a href="setup.html">(There is some required reading and software setup required before the workshop)</a>. This class assume you have basic knowledge of the R programming language. If you don’t have any experiecne, it would be helpful if you go through the <a href="r-basics.html">R Basic</a>, <a href="r-dataframes.html">Data Frames</a> and <a href="r-viz-gapminder.html">Data Visualization</a>.</p>
 </div>
 <div id="do-i-need-a-laptop" class="section level4">
 <h4>Do I need a laptop?</h4>
@@ -596,7 +530,7 @@ div.tocify {
 <h4>Where do I get additional help?</h4>
 <p>Glad you asked! <a href="help.html">See here</a>.</p>
 <hr />
-<p><small><strong><em>Attribution</em>:</strong> Course material is inspired by and/or modified in part from <a href="http://stat545-ubc.github.io/">Jenny Bryan’s Stat 545 course</a>, <a href="http://software-carpentry.org/">Software Carpentry</a>, <a href="http://datacarpentry.org/">Data Carpentry</a>, <a href="http://varianceexplained.org/">David Robinson’s blog</a>, <a href="https://github.com/marschmi/NGS2015_RMarkdown_Reproducibility">Marian Schmidt’s MSU NGS Workshop</a>, <a href="http://biostat.mc.vanderbilt.edu/wiki/Main/DataSets?CGISESSID=10713f6d891653ddcbb7ddbdd9cffb79">Vanderbilt Department of BioStatistics Datasets</a>, and likely many others.</small></p>
+<p><small><strong><em>Attribution</em>:</strong> Course material is inspired by and/or modified in part from <a href="https://4va.github.io/biodatasci/">4-VA JMU 2017 Biological Data Science Workshop</a>.</small></p>
 </div>
 </div>
 
