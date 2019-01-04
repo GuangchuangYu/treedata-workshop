@@ -459,10 +459,13 @@ div.tocify {
       <a href="r-ggtree-annotation.html">Phylogenetic Tree Annotation</a>
     </li>
     <li>
+      <a href="r-ggtree-data.html">Plotting Tree with Data</a>
+    </li>
+    <li>
       <a href="r-ggtree-phylomoji.html">Bonus! -  Phylomoji with ggtree</a>
     </li>
     <li>
-      <a href="r-ggtree-images.html">Bonus! -  Phylogenetic tree with images</a>
+      <a href="r-ggtree-image.html">Bonus! -  Phylogenetic tree with images</a>
     </li>
   </ul>
 </li>
@@ -515,7 +518,8 @@ div.tocify {
 <div id="cran-packages" class="section level3">
 <h3>CRAN packages</h3>
 <p>Launch RStudio (RStudio, <em>not R itself</em>). Ensure that you have internet access, then copy and paste the following command into the <strong>Console</strong> panel (usually the lower-left panel, by default) and hit the Enter/Return key.</p>
-<pre class="r"><code>pkg &lt;- c(&quot;BiocManager&quot;, &quot;dplyr&quot;, &quot;emojifont&quot;, &quot;ggplot2&quot;, 
+<pre class="r"><code>pkg &lt;- c(&quot;BiocManager&quot;, &quot;dplyr&quot;, &quot;emojifont&quot;, 
+      &quot;ggplot2&quot;, &quot;ggimage&quot;, &quot;ggstance&quot;,
       &quot;readr&quot;, &quot;tibble&quot;, &quot;tidytree&quot;))
 install.packages(pkg)</code></pre>
 <p><em>A few notes</em>:</p>
@@ -538,6 +542,7 @@ library(tidytree)</code></pre>
 <h3>Bioconductor</h3>
 <p>The <a href="https://www.bioconductor.org/packages/treeio">treeio</a> and <a href="https://www.bioconductor.org/packages/ggtree">ggtree</a> packages are released within the <a href="http://bioconductor.org/">Bioconductor</a> project These packages are installed differently than “regular” R packages from CRAN. Copy and paste these lines of code into your R console <strong>one at a time</strong>.</p>
 <pre class="r"><code>library(BiocManager)
+install(&quot;Biostrings&quot;)
 install(&quot;treeio&quot;)
 install(&quot;ggtree&quot;)</code></pre>
 <p>A few notes:</p>

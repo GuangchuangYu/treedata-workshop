@@ -19,7 +19,8 @@ R and RStudio are separate downloads and installations. **R** is the underlying 
 Launch RStudio (RStudio, *not R itself*). Ensure that you have internet access, then copy and paste the following command into the **Console** panel (usually the lower-left panel, by default) and hit the Enter/Return key. 
 
 ```r
-pkg <- c("BiocManager", "dplyr", "emojifont", "ggplot2", 
+pkg <- c("BiocManager", "dplyr", "emojifont", 
+      "ggplot2", "ggimage", "ggstance",
       "readr", "tibble", "tidytree"))
 install.packages(pkg)
 ```
@@ -55,6 +56,7 @@ The [treeio](https://www.bioconductor.org/packages/treeio) and [ggtree](https://
 
 ```r
 library(BiocManager)
+install("Biostrings")
 install("treeio")
 install("ggtree")
 ```

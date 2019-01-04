@@ -459,10 +459,13 @@ div.tocify {
       <a href="r-ggtree-annotation.html">Phylogenetic Tree Annotation</a>
     </li>
     <li>
+      <a href="r-ggtree-data.html">Plotting Tree with Data</a>
+    </li>
+    <li>
       <a href="r-ggtree-phylomoji.html">Bonus! -  Phylomoji with ggtree</a>
     </li>
     <li>
-      <a href="r-ggtree-images.html">Bonus! -  Phylogenetic tree with images</a>
+      <a href="r-ggtree-image.html">Bonus! -  Phylogenetic tree with images</a>
     </li>
   </ul>
 </li>
@@ -501,6 +504,7 @@ div.tocify {
 </div>
 
 
+<p>We usually use text to label taxa, i.e. displaying taxa names. If the text is image file name (either local or remote), <strong>ggtree</strong> can read the image and display the actual image as label of the taxa. The <code>geom_tiplab</code> and <code>geom_nodelab</code> are capable to render silhouette image by internally called <a href="https://cran.r-project.org/package=ggimage">ggimage</a> package.</p>
 <pre class="r"><code>library(ggimage)
 library(ggtree)
 
@@ -513,6 +517,7 @@ ggtree(x) + xlim(NA, 7) + ylim(NA, 6.2) +
     geom_tiplab(geom=&#39;label&#39;, offset=1, hjust=.5) + 
     geom_image(x=.8, y=5.5, image=&quot;img/frogs/frog.jpg&quot;, size=.2)</code></pre>
 <p><img src="r-ggtree-image_files/figure-html/unnamed-chunk-1-1.png" width="816" /></p>
+<p><a href="phylopic.org">Phylopic</a> contains more than 3200 silhouettes and covers almost all life forms. <strong>ggtree</strong> also supports using phylopic to annotate the tree. Most importantly, we can color the image using numerical/categorical variable.</p>
 <pre class="r"><code>tree &lt;- ape::read.nexus(&quot;https://raw.githubusercontent.com/rgriff23/Dissertation/master/Chapter_2/data/tree.nex&quot;)
 phylopic_info &lt;- data.frame(node = c(124, 113, 110, 96, 89, 70),
                             phylopic = c(&quot;7fb9bea8-e758-4986-afb2-95a2c3bf983d&quot;,
