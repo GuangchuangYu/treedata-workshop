@@ -101,7 +101,53 @@ ggtree(beast_tree) + geom_range(range = 'height_0.95_HPD', branch.length='height
 
 ## Visualize tree with associated matrix (as a heatmap)
 
-Visualizing [tree with external data](r-ggtree-data.html) will mainly be introduced in next lesson. As visualizing heatmap and multiple sequence alignment with the tree is more frequently used, **ggtree** provides `gheatmap` and `msaplot` function to these tasks.
+Visualizing [tree with external data](r-ggtree-data.html) will mainly be introduced in next lesson. As visualizing heatmap and multiple sequence alignment with the tree are frequently used, **ggtree** provides `gheatmap` and `msaplot` function for these tasks.  
+
+```{r fig.width=8, fig.height=8, fig.align="center", warning=FALSE}
+genotype <- read.table("data/Genotype.txt", sep="\t", stringsAsFactor=F)
+colnames(genotype) <- sub("\\.$", "", colnames(genotype))
+p <- ggtree(beast_tree) + geom_tiplab(size=2)
+gheatmap(p, genotype, offset=8, width=0.6, font.size=3) +
+  scale_fill_brewer(palette="Set2", breaks=c("HuH3N2", "pdm", "trig"))
+```
 
 
 
+### Exercise 4
+
+1. Read the [Cookbook for R](http://cookbook-r.com/Graphs/Colors_(ggplot2)/) and re-create this figure with another color palette, e.g. `Paired`.
+2. create a tree with heatmap in circular layout
+
+```{r eval=F, echo=F, fig.width=8, fig.height=8, fig.align="center", warning=FALSE}
+gheatmap(p, genotype, offset=8, width=0.6, font.size=3) +
+  scale_fill_brewer(palette="Paired", breaks=c("HuH3N2", "pdm", "trig"))
+
+p <- ggtree(beast_tree, layout='circular') + geom_tiplab2(size=2)
+gheatmap(p, genotype, offset=16, width=0.6, font.size=3, colnames_angle = 90, hjust=0) +
+  scale_fill_brewer(palette="Paired", breaks=c("HuH3N2", "pdm", "trig"))
+```
+
+
+## Visualize tree with multiple sequence alignment
+
+The `msaplot` accepts a tree (output of `ggtree`) and a fasta file, then it can visualize the tree with sequence alignment. We can specify the `width` (relative to the tree) of the alignment and adjust relative position by `offset`, that are similar to `gheatmap` function.
+
+
+```{r}
+tree <- read.tree("data/tree.nwk")
+p <- ggtree(tree) + geom_tiplab(size=3)
+msaplot(p, "data/sequence.fasta", offset=3, width=2)
+```
+
+### Exercise 5
+
+1. plot tree with MSA at specific slide of the alignment (e.g. at the position of [300, 350])
+2. re-create the above figure using circular layout
+
+```{r eval=F, echo=F}
+p <- ggtree(tree)
+msaplot(p, "data/sequence.fasta", window=c(300,350))
+
+p <- ggtree(tree, layout='circular')
+msaplot(p, "data/sequence.fasta", window=c(300,350))
+```
