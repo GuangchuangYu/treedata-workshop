@@ -11,7 +11,7 @@
 
 
 
-<title>Data</title>
+<title>Phylogenetic Tree Annotation</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -19,6 +19,9 @@
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
@@ -287,6 +290,107 @@ $(document).ready(function () {
 
 
 
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
 
 
 <div class="navbar navbar-inverse  navbar-fixed-top" role="navigation">
@@ -392,31 +496,61 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Data</h1>
+<h1 class="title toc-ignore">Phylogenetic Tree Annotation</h1>
 
 </div>
 
 
+<p>This lesson introduces basic annotation utilies for common tasks such as highlight and labelling clades.</p>
+<div id="label-clade" class="section level2">
+<h2>Label Clade</h2>
+<pre class="r"><code>library(ggtree)
+set.seed(2015-12-21)
+tree &lt;- rtree(30)
+p &lt;- ggtree(tree) + xlim(NA, 6)
+
+p + geom_cladelabel(node=45, label=&quot;test label&quot;) +
+    geom_cladelabel(node=34, label=&quot;another clade&quot;)</code></pre>
+<p><img src="r-ggtree-annotation_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<p>We can use <code>align=TRUE</code> to align the clade label and use <code>offset</code> to adjust the position.</p>
+<pre class="r"><code>p + geom_cladelabel(node=45, label=&quot;test label&quot;, align=T, color=&#39;red&#39;) +
+    geom_cladelabel(node=34, label=&quot;another clade&quot;, align=T, color=&#39;blue&#39;)</code></pre>
+<p><img src="r-ggtree-annotation_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<div id="exercise-1" class="section level3">
+<h3>Exercise 1</h3>
+<p>Look at the help for <code>?geom_cladelabel</code> to learn the usages of other parameters.</p>
 <ol style="list-style-type: decimal">
-<li><strong>Option 1: Download all the data</strong>. Download and extract <strong><a href="data.zip">this zip file <i class="fa fa-file-archive-o" aria-hidden="true"></i></a></strong> (7.34 Mb) with all the data for the entire workshop. This may include additional datasets that we won’t use here.</li>
-<li><strong>Option 2: Download individual datasets as needed.</strong>
-<ul>
-<li>Create a new folder somewhere on your computer that’s easy to get to (e.g., your Desktop). Name it <code>workshop</code>. Inside that folder, make a folder called <code>data</code>, all lowercase.</li>
-<li>Download individual data files as needed, saving them to the new <code>workshop/data</code> folder you just made. Click to download. If data displays in your browser, right-click and select <em>Save link as…</em> (or similar) to save to the desired location.</li>
-</ul></li>
+<li>rotate the text ’another clade` with 45 degree.</li>
+<li>increase the sizes of bar and label for the ‘test label’</li>
+<li>increase relative positon of bar and label</li>
 </ol>
-<ul>
-<li><a href="data/brauer2007_tidy.csv">brauer2007_tidy.csv</a></li>
-<li><a href="data/gapminder.csv">gapminder.csv</a></li>
-<li><a href="data/inode_data.csv">inode_data.csv</a></li>
-<li><a href="data/MCC_FluA_H3.tree">MCC_FluA_H3.tree</a></li>
-<li><a href="data/mlc">mlc</a></li>
-<li><a href="data/rst">rst</a></li>
-<li><a href="data/sequence.fasta">sequence.fasta</a></li>
-<li><a href="data/tip_data.csv">tip_data.csv</a></li>
-<li><a href="data/tree.nwk">tree.nwk</a></li>
-<li><a href="data/tree_boots.nwk">tree_boots.nwk</a></li>
-</ul>
+</div>
+</div>
+<div id="highlight-clades" class="section level2">
+<h2>Highlight clades</h2>
+<p><strong>ggtree</strong> implements <code>geom_hilight</code> to add rectangle to highlight selected clade.</p>
+<pre class="r"><code>ggtree(tree) + geom_hilight(node=34, fill=&quot;steelblue&quot;, alpha=.6) +
+    geom_hilight(node=45, fill=&quot;darkgreen&quot;, alpha=.6)</code></pre>
+<p><img src="r-ggtree-annotation_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p><code>geom_hilight</code> supports rectangular and circular layouts. For unrooted layout, <strong>ggtree</strong> provides <code>geom_hilight_encircle</code> layer.</p>
+<pre class="r"><code>ggtree(tree, layout = &quot;unrooted&quot;) + geom_hilight_encircle(node=34, fill=&#39;steelblue&#39;) +
+  geom_hilight_encircle(node=45, fill=&quot;darkgreen&quot;)</code></pre>
+<p><img src="r-ggtree-annotation_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+</div>
+<div id="exercise-2" class="section level2">
+<h2>Exercise 2</h2>
+<ol style="list-style-type: decimal">
+<li>Create a circular layout tree and highlight the selected clades.</li>
+</ol>
+</div>
+<div id="uncertainty-of-evolutionary-inference" class="section level2">
+<h2>Uncertainty of evolutionary inference</h2>
+<p><strong>ggtree</strong> provides <code>geom_range</code> to display uncertainty of evolutionary inference.</p>
+<p>This example use a BEAST tree, which was imported by <a href="r-treeio.html">treeio</a>. Data that stored in the tree object or mapped to the tree from <a href="r-treeio.html">external data</a> can be used to annotate the tree directly.</p>
+<pre class="r"><code>beast_tree &lt;- read.beast(&quot;data/MCC_FluA_H3.tree&quot;)
+ggtree(beast_tree) + geom_range(range = &#39;height_0.95_HPD&#39;, branch.length=&#39;height&#39;, color=&#39;red&#39;, alpha=.6, size=2)</code></pre>
+<p><img src="r-ggtree-annotation_files/figure-html/unnamed-chunk-8-1.png" width="576" /></p>
+</div>
 
 <div class="footer">
 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank"><i class="fa fa-creative-commons fa-2x"></i></a>&nbsp;
@@ -425,6 +559,8 @@ $(document).ready(function () {
 </div>
 
 
+</div>
+</div>
 
 </div>
 

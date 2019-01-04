@@ -26,12 +26,14 @@ navbar:
           href: r-viz-gapminder.html
         - text: "----"
         - text: "--- treeio ---"
-        - text: "Importing & Exporting trees with data"
+        - text: "Importing & Exporting Trees with Data"
           href: r-treeio.html
         - text: "----"
         - text: "--- ggtree ---"
-        - text: "Phylogenetic Trees"
-          href: r-ggtree.html
+        - text: "Phylogenetic Tree Visualization"
+          href: r-ggtree-viz.html
+        - text: "Phylogenetic Tree Annotation"
+          href: r-ggtree-annotation.html          
         - text: "Bonus! -  Phylomoji with ggtree"
           href: r-ggtree-phylomoji.html
         - text: "Bonus! -  Phylogenetic tree with images"

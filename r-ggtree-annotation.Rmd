@@ -1,0 +1,99 @@
+---
+title: 'Phylogenetic Tree Annotation'
+---
+
+```{r, echo=FALSE, message=FALSE, eval=TRUE}
+library(knitr)
+opts_chunk$set(message=FALSE, warning=FALSE, eval=TRUE, echo=TRUE, cache=TRUE)
+options(digits=3)
+options(max.print=200)
+library(ggtree)
+
+```
+
+
+
+This lesson introduces basic annotation utilies for common tasks such as highlight and labelling clades.
+
+## Label Clade
+
+```{r}
+library(ggtree)
+set.seed(2015-12-21)
+tree <- rtree(30)
+p <- ggtree(tree) + xlim(NA, 6)
+
+p + geom_cladelabel(node=45, label="test label") +
+    geom_cladelabel(node=34, label="another clade")
+```
+
+We can use `align=TRUE` to align the clade label and use `offset` to adjust the position.
+
+```{r}
+p + geom_cladelabel(node=45, label="test label", align=T, color='red') +
+    geom_cladelabel(node=34, label="another clade", align=T, color='blue')
+```
+
+### Exercise 1
+
+Look at the help for `?geom_cladelabel` to learn the usages of other parameters.
+
+1. rotate the text 'another clade` with 45 degree.
+2. increase the sizes of bar and label for the 'test label'
+3. increase relative positon of bar and label
+
+
+```{r eval=F, echo=F}
+p + geom_cladelabel(node=45, label="test label", align=T) +
+    geom_cladelabel(node=34, label="another clade", align=T, angle=45)
+
+p + geom_cladelabel(node=45, label="test label", align=T, barsize=1.5, fontsize=8) +
+    geom_cladelabel(node=34, label="another clade", align=T, angle=45)
+
+p + geom_cladelabel(node=45, label="test label", align=T, barsize=1.5, fontsize=8, offset.text=.3) +
+    geom_cladelabel(node=34, label="another clade", align=T, angle=45)
+```
+
+
+## Highlight clades
+
+**ggtree** implements `geom_hilight` to add rectangle to highlight selected clade.
+
+
+```{r}
+ggtree(tree) + geom_hilight(node=34, fill="steelblue", alpha=.6) +
+    geom_hilight(node=45, fill="darkgreen", alpha=.6)
+```
+
+`geom_hilight` supports rectangular and circular layouts. For unrooted layout, **ggtree** provides `geom_hilight_encircle` layer.
+
+```{r}
+ggtree(tree, layout = "unrooted") + geom_hilight_encircle(node=34, fill='steelblue') +
+  geom_hilight_encircle(node=45, fill="darkgreen")
+```
+
+## Exercise 2
+
+1. Create a circular layout tree and highlight the selected clades.
+
+```{r eval=F, echo=F}
+ggtree(tree, layout='circular') + geom_hilight(node=34, fill="steelblue", alpha=.6) +
+    geom_hilight(node=45, fill="darkgreen", alpha=.6)
+```
+
+
+
+## Uncertainty of evolutionary inference
+
+**ggtree** provides `geom_range` to display uncertainty of evolutionary inference.
+
+This example use a BEAST tree, which was imported by [treeio](r-treeio.html). Data that stored in the tree object or mapped to the tree from [external data](r-treeio.html) can be used to annotate the tree directly.
+
+
+```{r fig.width=6, fig.height=8}
+beast_tree <- read.beast("data/MCC_FluA_H3.tree")
+ggtree(beast_tree) + geom_range(range = 'height_0.95_HPD', branch.length='height', color='red', alpha=.6, size=2)
+```
+
+
+
