@@ -1,0 +1,15 @@
+---
+title: 'Phylogenetic tree visualization'
+---
+
+```{r, echo=FALSE, message=FALSE, eval=TRUE}
+library(knitr)
+opts_chunk$set(message=FALSE, warning=FALSE, eval=TRUE, echo=TRUE, cache=TRUE)
+options(digits=3)
+options(max.print=200)
+```
+
+
+This lesson demonstrates how to use **ggtree**, an extension of the ggplot2 package to visualize phylogenetic trees. 
+
+After 

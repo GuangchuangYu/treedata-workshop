@@ -26,10 +26,8 @@ navbar:
           href: r-viz-gapminder.html
         - text: "----"
         - text: "--- treeio ---"
-        - text: "Importing trees with data using treeio"
-          href: r-treeio-input.html
-        - text: "Exporting trees with data using treeio"
-          href: r-treeio-output.html
+        - text: "Importing & Exporting trees with data"
+          href: r-treeio.html
         - text: "----"
         - text: "--- ggtree ---"
         - text: "Phylogenetic Trees"
