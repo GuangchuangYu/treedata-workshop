@@ -95,5 +95,13 @@ beast_tree <- read.beast("data/MCC_FluA_H3.tree")
 ggtree(beast_tree) + geom_range(range = 'height_0.95_HPD', branch.length='height', color='red', alpha=.6, size=2)
 ```
 
+### Exercise 3
+
+1. create a heat tree by using substitution rate (`rate` in `beast_tree`) to color branches.
+
+## Visualize tree with associated matrix (as a heatmap)
+
+Visualizing [tree with external data](r-ggtree-data.html) will mainly be introduced in next lesson. As visualizing heatmap and multiple sequence alignment with the tree is more frequently used, **ggtree** provides `gheatmap` and `msaplot` function to these tasks.
+
 
 

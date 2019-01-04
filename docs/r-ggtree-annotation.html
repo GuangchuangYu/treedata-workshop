@@ -550,6 +550,16 @@ p + geom_cladelabel(node=45, label=&quot;test label&quot;) +
 <pre class="r"><code>beast_tree &lt;- read.beast(&quot;data/MCC_FluA_H3.tree&quot;)
 ggtree(beast_tree) + geom_range(range = &#39;height_0.95_HPD&#39;, branch.length=&#39;height&#39;, color=&#39;red&#39;, alpha=.6, size=2)</code></pre>
 <p><img src="r-ggtree-annotation_files/figure-html/unnamed-chunk-8-1.png" width="576" /></p>
+<div id="exercise-3" class="section level3">
+<h3>Exercise 3</h3>
+<ol style="list-style-type: decimal">
+<li>create a heat tree by using substitution rate (<code>rate</code> in <code>beast_tree</code>) to color branches.</li>
+</ol>
+</div>
+</div>
+<div id="visualize-tree-with-associated-matrix-as-a-heatmap" class="section level2">
+<h2>Visualize tree with associated matrix (as a heatmap)</h2>
+<p>Visualizing <a href="r-ggtree-data.html">tree with external data</a> will mainly be introduced in next lesson. As visualizing heatmap and multiple sequence alignment with the tree is more frequently used, <strong>ggtree</strong> provides <code>gheatmap</code> and <code>msaplot</code> function to these tasks.</p>
 </div>
 
 <div class="footer">

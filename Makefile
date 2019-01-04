@@ -1,13 +1,15 @@
 all: deploy
 
-
-
 render:
 	Rscript -e 'rmarkdown::render_site()'
 
-clean:
-	rm -rf docs;\
+clean: clean_site
+	rm -rf docs
+
+clean_site:
 	Rscript -e 'rmarkdown::clean_site()'
 
 deploy: clean render
-	mv _site docs
+	mv _site docs;\
+	Rscript -e 'rmarkdown::clean_site()'
+
