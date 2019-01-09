@@ -24,7 +24,7 @@ Here, we will use **ggtree** to recreate the figure:
 [![](img/phylomoji.png)](https://twitter.com/OxyMLZ/status/1055586178651451392)
 
 
-```{r fig.width=7, fig.height=5, warning=F, fig.showtext=TRUE}
+```{r fig.width=7, fig.height=5, warning=F}
 library(ggplot2)
 library(ggtree)
 
