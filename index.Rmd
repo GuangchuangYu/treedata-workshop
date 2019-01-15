@@ -28,7 +28,7 @@ This workshop introduces Bioconductor packages, treeio and ggtree, for importing
 
 ### About this workshop 
 
-This workshop introduces Bioconductor packages, treeio and ggtree, for importing, linking, exporting and visualizing phylogenetic tree with heterogeneous associated data using the R statistical computing environment. Specifically, the course introduces the **treeio** package for parsing a number of software outputs that contain phylogenetic tree with evolutionary evidences, linking external data to the phylogenetic tree structure and exportingh tree with data in a single file, and the **ggtree** package for visualizing and annotating phylogenetic tree with covariates and other assoicated data.
+This workshop introduces Bioconductor packages, treeio and ggtree, for importing, linking, exporting and visualizing phylogenetic tree with heterogeneous associated data using the R statistical computing environment. Specifically, the course introduces the **treeio** package for parsing a number of software outputs that contain phylogenetic tree with evolutionary evidences, linking external data to the phylogenetic tree structure and exporting tree with data in a single file, and the **ggtree** package for visualizing and annotating phylogenetic tree with covariates and other associated data.
 
 
 **This is not an R class.** Some general knowledge of the R language is helpful.
