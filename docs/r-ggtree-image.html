@@ -516,23 +516,24 @@ ggtree(x) + xlim(NA, 7) + ylim(NA, 6.2) +
                 geom=&quot;image&quot;, offset=2, align=2, size=.2)  + 
     geom_tiplab(geom=&#39;label&#39;, offset=1, hjust=.5) + 
     geom_image(x=.8, y=5.5, image=&quot;img/frogs/frog.jpg&quot;, size=.2)</code></pre>
-<p><img src="r-ggtree-image_files/figure-html/unnamed-chunk-1-1.png" width="816" /></p>
+<p><img src="r-ggtree-image_files/figure-html/unnamed-chunk-2-1.png" width="816" /></p>
 <p><a href="phylopic.org">Phylopic</a> contains more than 3200 silhouettes and covers almost all life forms. <strong>ggtree</strong> also supports using phylopic to annotate the tree. Most importantly, we can color the image using numerical/categorical variable.</p>
 <pre class="r"><code>tree &lt;- ape::read.nexus(&quot;https://raw.githubusercontent.com/rgriff23/Dissertation/master/Chapter_2/data/tree.nex&quot;)
 phylopic_info &lt;- data.frame(node = c(124, 113, 110, 96, 89, 70),
-                            phylopic = c(&quot;7fb9bea8-e758-4986-afb2-95a2c3bf983d&quot;,
-                                        &quot;bac25f49-97a4-4aec-beb6-f542158ebd23&quot;,
-                                        &quot;f598fb39-facf-43ea-a576-1861304b2fe4&quot;,
-                                        &quot;aceb287d-84cf-46f1-868c-4797c4ac54a8&quot;,
-                                        &quot;0174801d-15a6-4668-bfe0-4c421fbe51e8&quot;,
-                                        &quot;72f2f854-f3cd-4666-887c-35d5c256ab0f&quot;),
+                            phylopic = c(&quot;c4ac9ea6-b465-4ed0-a5de-9fe4eebd3ef9&quot;,
+                                        &quot;5388a472-994a-48e1-86de-d988c6019e72&quot;,
+                                        &quot;615c82cf-fabe-49f8-b571-e8117edfa212&quot;,
+                                        &quot;63ff1b70-6b6e-4412-b4d2-b2e2fb51aa95&quot;,
+                                        &quot;d65d5abd-df8b-4509-912c-e42f6c34861f&quot;,
+                                        &quot;6d54acc7-9e1e-4b79-be88-4904cf58fbb5&quot;),
                             species = c(&quot;galagoids&quot;, &quot;lemurs&quot;, &quot;tarsiers&quot;,
                                         &quot;cebids&quot;, &quot;hominoids&quot;, &quot;cercopithecoids&quot;))
 pg &lt;- ggtree(tree)
 pg %&lt;+% phylopic_info + 
-  geom_nodelab(aes(image=phylopic, color=species, subset=!is.na(species)), geom=&quot;phylopic&quot;) + 
+  geom_nodelab(aes(image=phylopic, color=species, subset=!is.na(species)), 
+              geom=&quot;phylopic&quot;, alpha = .6) + 
   theme(legend.position=c(.1, .8))</code></pre>
-<p><img src="r-ggtree-image_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<p><img src="r-ggtree-image_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
 
 <div class="footer">
 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank"><i class="fa fa-creative-commons fa-2x"></i></a>&nbsp;

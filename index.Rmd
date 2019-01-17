@@ -7,6 +7,11 @@ output:
 
 This workshop introduces Bioconductor packages, treeio and ggtree, for importing, linking, exporting and visualizing phylogenetic tree with heterogeneous associated data using the R statistical computing environment. 
 
+```{r, include=FALSE}
+library(knitr)
+knitr::opts_chunk$set(message=FALSE, warning=FALSE, eval=TRUE, echo=FALSE)
+suppressPackageStartupMessages(library(dplyr))
+```
 
 ## General Information
 

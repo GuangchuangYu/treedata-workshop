@@ -2,6 +2,12 @@
 title: "Further Resources"
 ---
 
+```{r, include=FALSE}
+library(knitr)
+knitr::opts_chunk$set(message=FALSE, warning=FALSE, eval=TRUE, echo=FALSE)
+suppressPackageStartupMessages(library(dplyr))
+```
+
 ## R resources
 
 ### Getting Help

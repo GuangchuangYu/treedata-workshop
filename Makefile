@@ -10,6 +10,8 @@ clean_site:
 	Rscript -e 'rmarkdown::clean_site()'
 
 deploy: clean render
-	mv _site docs;\
-	Rscript -e 'rmarkdown::clean_site()'
+	mv _site docs
+
+push: clean_site
+	git add .; git commit -m 'update'; git push
 
